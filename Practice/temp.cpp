@@ -1,38 +1,36 @@
 #include <bits/stdc++.h>
 using namespace std;
+#define ll long long int
+int main() {
+    
+    int op;
+    cin>>op;
  
-int main(){
-    typedef long long int LAL;
-    LAL s,n,temp1,temp2;
-    cin>>s>>n;
-    LAL x[n];
-    LAL y[n];
-    for(int i=0;i<n;i++){
-        cin>>x[i]>>y[i];
-    }
-    for(int i=0;i<n;i++){
-        for(int j=0;j<n;j++){
-            if(x[i]<x[j]){
-                temp1=x[i];
-                temp2=y[i];
-                x[i]=x[j];
-                y[i]=y[j];
-                x[j]=temp1;
-                y[j]=temp2;
-            }
-        }
-    }
-    string s1;
-    for(int i=0;i<n;i++){
-        if(s<=x[i]){
-            s1="NO";
-            break;
-        }
-        else{
-            s+=y[i];
-            s1="YES";
-        }
-    }
-    cout<<s1;
+    while(op--)
+    {
+        int x;
+        cin>>x;
+
+        double root,root2;
+        int rooti,root2i;
+        root=(-1+sqrt(1+(8*x)))/2;
+        rooti=(-1+sqrt(1+(8*x)))/2;
+
+        root2=(-1+sqrt(1+(8*(x+1))))/2;
+        root2i=(-1+sqrt(1+(8*(1+x))))/2;
+
+        if(root-rooti==0)
+            cout<<rooti<<"\n";
+
+        else if(root2-root2i==0)
+            cout<<root2i+1<<"\n";
+
+        else
+            cout<<x-1<<"\n";
+
+     
+            
+    }    
+    
     return 0;
 }
