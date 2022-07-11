@@ -38,27 +38,22 @@ int main(){
     int t;
     cin>>t;
     while(t--){
-        int n,temp;
+        int n;
         cin>>n;
-        vector<pair<int,int>> a;
-        repg(0,n){
-            cin>>temp;
-            a.pb(make_pair(temp,i));
+        vector<ll> a(n);
+        input(a);
+        string ans = "YES";
+        for(int i = n-1;i>=1;i=i-2){
+            if(a[i]<a[i-1])
+                swap(a[i],a[i-1]);
         }
 
-        string ans = "YES";
-        sort(a.begin(),a.end());
-        // repg(0,n){
-        //     cout<<a[i].first<<" ";
-        // }
-        repg(0,n){
-            if(abs(a[i].second-i) >= 2){
+        repg(0,n-1){
+            if(a[i+1]<a[i]){
                 ans = "NO";
                 break;
             }
         }
-
-        cout<<ans<<"\n";
-
+        cout<<ans<<enl;
     }
 }

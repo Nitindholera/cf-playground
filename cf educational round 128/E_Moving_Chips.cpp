@@ -15,7 +15,7 @@ typedef long long int ll;
 #define enl '\n'
 #define vll vector<ll>
 #define pll pair<ll,ll>
-
+#define INF LONG_LONG_MAX
 
 int main(){
     ios_base::sync_with_stdio(false);
@@ -24,51 +24,51 @@ int main(){
     while(t--){
         int n;
         cin>>n;
-        string s1,s2;
-        cin>>s1>>s2;
+        string ss1,ss2,s1,s2;
+        cin>>ss1>>ss2;
 
-        int val = -1, flag = -1;
-        int ans = 0, n1=0,n2=0;
-
+        int l=0,r=n-1;
+        repg(0,n){
+            if(ss1[i]=='*' || ss2[i]=='*'){
+                l = i;
+                break;
+            }
+        }
+        repg(0,n){
+            if(ss1[n-i-1]=='*' || ss2[n-1-i]=='*'){
+                r = n-1-i;
+                break;
+            }
+        }
+        s1.clear();s2.clear();
+        repg(l,r+1){    
+            s1 +=ss1[i];
+            s2 +=ss2[i];
+        }
+        // cout<<s1<<enl;
+        // cout<<s2<<enl;
+        n=sz(s1);
+        vector<vll> cost(2,vll(n,0)), dp(2, vll(n,INF));
         repg(0,n){
             if(s1[i]=='*')
-                n1++;
+                cost[0][i] = 1;
             if(s2[i]=='*')
-                n2++;
+                cost[1][i] = 1;
         }
-        if(n1>n2)
-            val = 1;
-        else
-            val = 2;
-        repg(0,n){
-            if(flag!= -1){
-                ans++;
-            }
+        
+        dp[0][0] = cost[1][0];
+        dp[1][0] = cost[0][0];
 
-            if(s1[i]=='*' && s2[i]=='.'){
-                if(flag==-1){
-                    flag = 1;
-                }
-                else if(val = 2){
-                    ans++;
-                }
-            }
-            else if(s2[i] == '*' && s1[i] == '.'){
-                if(flag==-1){
-                    flag = 1;
-                }
-                else if(val = 1){
-                    ans++;
-                }
-            }
-            else if(s1[i]=='*' && s2[i]=='*'){
-                ans++;
-                flag = 1;
-            }
-            else{
-
-            }
+        repg(1,n){
+            dp[0][i] = min(dp[0][i-1]+1+cost[1][i], dp[1][i-1]+2);
+            dp[1][i] = min(dp[1][i-1]+1+cost[0][i], dp[0][i-1]+2);
         }
-        cout<<ans<<enl;
+
+        // repg(0,n) cout<<dp[0][i];
+        // cout<<enl;
+        // repg(0,n) cout<<dp[1][i];
+        // cout<<enl;
+
+        cout<<min(dp[0][n-1],dp[1][n-1])<<enl;
     }
 }
