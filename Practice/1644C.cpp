@@ -1,0 +1,55 @@
+#include<bits/stdc++.h>
+using namespace std;
+typedef long long int ll;
+
+#define rep(i,a,b,c) for(int i=a;i<b;i+=c)
+#define repg(a,n) for(int i=a;i<n;i++)
+#define pb push_back
+#define ss second
+#define ff first
+#define MOD 1000000007
+#define all(v) (v).begin(),(v).end()
+#define inv(vec) for (auto &el : vec) cin >> el;
+#define print(vec) for (auto &el : vec) cout << el << " "; cout << "\n"; 
+#define sz(s) (int)s.size()
+#define enl '\n'
+#define vll vector<ll>
+#define pll pair<ll,ll>
+#define vpll vector<pll>
+#define int ll
+#define INF LONG_LONG_MAX
+#define ini(n) int n;cin>>n;
+
+signed main(){
+    ios_base::sync_with_stdio(false);
+    int t;
+    cin>>t;
+    while(t--){
+        ini(n);ini(x);
+        vll a(n);
+        inv(a);
+
+        vll seg(n+1,0);
+        vll sum(n); sum[0] = a[0];
+        repg(1,n) sum[i] = sum[i-1] + a[i];
+        repg(1,n+1){
+            ll mx = sum[i-1], tmp = sum[i-1];
+            for(int j = 0;j<n;j++){
+                ll k = j + i;
+                if(k<n){
+                    mx = max(mx, tmp - a[j] + a[k]);
+                    tmp = tmp -a[j] + a[k];
+                }
+            }
+            seg[i] = mx;
+        }
+        // print(seg);
+
+        repg(0,n+1){
+            ll ans = 0;
+            for(int j = 0;j<n+1;j++) ans = max(ans, seg[j] + min(j, i)*x);
+            cout<<ans<<" ";
+        }
+        cout<<enl;
+    }
+}
