@@ -20,6 +20,35 @@ typedef long long int ll;
 #define INF LONG_LONG_MAX
 #define ini(n) int n;cin>>n;
 
+class Graph{
+private:
+    ll v;
+    vector<vll> adj;
+    vll vis;
+public:
+    Graph(int v1){
+        v = v1;
+        adj.resize(v1+1);
+        vis.resize(v1+1,0);
+    }
+    
+    void addEdge(int v1, int v2){
+        adj[v1].pb(v2);
+        adj[v2].pb(v1);
+    }
+
+    int dfs(int root, int num){
+        vis[root] = 1;
+        // cout<<root<<" ";
+        num++;
+        for(auto child: adj[root]){
+            if(!vis[child])
+                num = dfs(child, num);
+        }
+        return num;
+    }
+};
+
 signed main(){
     ios_base::sync_with_stdio(false);
     int t;
@@ -41,20 +70,15 @@ signed main(){
 
         string ans = "NO";
         if(ch){
-            set<ll> st, st2;
+            Graph g(n);
+            repg(0,n) g.addEdge(a[i],b[i]);
+            ll ok = 1;
             repg(0,n){
-                if(st.find(a[i])==st.end() && st.find(b[i])==st.end()){
-                    st.insert(a[i]);
-                    st.insert(b[i]);
-                }
-                else{
-                    st2.insert(a[i]);
-                    st2.insert(b[i]);
-                }
+                // cout<<g.dfs(i+1,0)<<" ";
+                ll num = g.dfs(i+1,0);
+                if(num%2 == 1 && num!=1) ok = 0;
             }
-            vll tmp;
-            for(auto it: st) tmp.pb(it);
-            if(sz(tmp)==n) ans = "YES";
+            if(ok) ans = "YES";
         }
 
         cout<<ans<<enl;
